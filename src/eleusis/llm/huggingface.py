@@ -68,11 +68,10 @@ class HuggingFaceClient(BaseLLMClient):
         self.reasoning_format = reasoning_format
         self.timeout = timeout
 
-        if self.api_key:
-            os.environ["HF_TOKEN"] = self.api_key
-
         # Initialize client with provider if specified
-        client_kwargs = {"bill_to": "huggingface", "timeout": self.timeout}
+        client_kwargs = {"timeout": self.timeout}
+        if self.api_key:
+            client_kwargs["token"] = self.api_key
         if self.hf_provider:
             client_kwargs["provider"] = self.hf_provider
         self.client = InferenceClient(**client_kwargs)
