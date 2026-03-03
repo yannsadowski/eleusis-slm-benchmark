@@ -76,6 +76,42 @@ grok-4:
   color: "#333333"  # xAI dark gray
 
 # ============================================================================
+# OpenRouter - SLM models (< 9B parameters)
+# ============================================================================
+
+# Reasoning models (chain-of-thought distilled)
+ministral-8b:
+  provider: openrouter
+  model_id: mistralai/ministral-8b-2512
+  color: "#FF7043"  # Mistral orange
+
+# Standard SLM instruction models
+llama-3.1-8b:
+  provider: openrouter
+  model_id: meta-llama/llama-3.1-8b-instruct
+  color: "#5BA8FB"  # Meta blue
+
+qwen-2.5-7b:
+  provider: openrouter
+  model_id: qwen/qwen-2.5-7b-instruct
+  color: "#E07B54"  # Qwen orange
+
+gemma-3-4b:
+  provider: openrouter
+  model_id: google/gemma-3-4b-it
+  color: "#82B4F7"  # Google blue (light)
+
+qwen-3-8b:
+  provider: openrouter
+  model_id: qwen/qwen3-8b
+  color: "#D4622A"  # Qwen orange (dark)
+
+llama-3.2-3b:
+  provider: openrouter
+  model_id: meta-llama/llama-3.2-3b-instruct
+  color: "#5BA8FB"  # Meta blue (light)
+
+# ============================================================================
 # Open Models - HuggingFace Inference Providers
 # ============================================================================
 

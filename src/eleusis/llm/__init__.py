@@ -16,6 +16,7 @@ from eleusis.llm.base import (
 from eleusis.llm.google import GoogleClient
 from eleusis.llm.huggingface import HuggingFaceClient
 from eleusis.llm.openai_client import OpenAIClient
+from eleusis.llm.openrouter import OpenRouterClient
 from eleusis.llm.xai import XAIClient
 from eleusis.player import LLMScientist  # Re-export for backward compat
 
@@ -28,6 +29,7 @@ __all__ = [
     "HuggingFaceClient",
     "OpenAIClient",
     "XAIClient",
+    "OpenRouterClient",
     "LLMCallMetrics",
     "GenerateMetrics",
     "TruncationError",
@@ -122,6 +124,14 @@ def create_client(
     elif provider == "xai":
         return XAIClient(
             api_key=os.getenv("XAI_API_KEY"),
+            **common_kwargs,
+        )
+
+    elif provider == "openrouter":
+        reasoning_effort = config.get("reasoning_effort")
+        return OpenRouterClient(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            reasoning_effort=reasoning_effort,
             **common_kwargs,
         )
 
