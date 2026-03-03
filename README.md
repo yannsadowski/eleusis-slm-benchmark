@@ -1,14 +1,10 @@
-# Eleusis LLM Benchmark
+# Eleusis SLM Benchmark
 
-A benchmark for evaluating Large Language Models on **inductive reasoning and pattern discovery**, using an adaptation of Robert Abbott's card game [Eleusis](https://en.wikipedia.org/wiki/Eleusis_(card_game)) (1956).
+Fork of [Eleusis LLM Benchmarck](https://github.com/scienceetonnante/eleusis-llm-benchmark)
+
+A benchmark for evaluating Small Language Models on **inductive reasoning and pattern discovery**, using an adaptation of Robert Abbott's card game [Eleusis](https://en.wikipedia.org/wiki/Eleusis_(card_game)) (1956).
 
 A secret rule determines which cards are accepted. The model must discover the rule by playing cards and observing the outcomes, mimicking the process of scientific hypothesis testing.
-
-Full results on the dedicated [Eleusis space on Hugging Face](https://huggingface.co/spaces/huggingface/eleusis-benchmark)
-
-<p align="center">
-  <img src="results.png" alt="Eleusis benchmark results" style="width: 70%; max-width: 900px;">
-</p>
 
 
 ## Quick Start
