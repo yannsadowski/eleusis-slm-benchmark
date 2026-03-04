@@ -52,6 +52,13 @@ for model in "${MODELS[@]}"; do
 done
 echo ""
 
+# Show time estimate based on historical results
+if command -v uv &>/dev/null; then
+    uv run python scripts/estimate_parallel_time.py "$MODELS_FILE" "$CONFIG_FILE" 2>/dev/null || true
+elif command -v python3 &>/dev/null; then
+    python3 scripts/estimate_parallel_time.py "$MODELS_FILE" "$CONFIG_FILE" 2>/dev/null || true
+fi
+
 for model in "${MODELS[@]}"; do
     echo "[$(date '+%H:%M:%S')] Starting: $model"
     uv run python scripts/evaluate_single.py --config "$CONFIG_FILE" --model "$model" &
