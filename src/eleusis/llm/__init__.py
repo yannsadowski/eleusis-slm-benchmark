@@ -15,6 +15,7 @@ from eleusis.llm.base import (
 )
 from eleusis.llm.google import GoogleClient
 from eleusis.llm.huggingface import HuggingFaceClient
+from eleusis.llm.local import LocalClient
 from eleusis.llm.openai_client import OpenAIClient
 from eleusis.llm.openrouter import OpenRouterClient
 from eleusis.llm.xai import XAIClient
@@ -27,6 +28,7 @@ __all__ = [
     "AnthropicClient",
     "GoogleClient",
     "HuggingFaceClient",
+    "LocalClient",
     "OpenAIClient",
     "XAIClient",
     "OpenRouterClient",
@@ -145,6 +147,15 @@ def create_client(
             **common_kwargs,
         )
 
+    elif provider == "local":
+        base_url = config.get("base_url", LocalClient.DEFAULT_BASE_URL)
+        reasoning_format = config.get("reasoning_format", "none")
+        return LocalClient(
+            base_url=base_url,
+            reasoning_format=reasoning_format,
+            **common_kwargs,
+        )
+
     else:
         raise ValueError(f"Unknown provider: {provider}")
 
@@ -190,5 +201,13 @@ def create_client_from_config(
             **common_kwargs,
         )
 
-    # Could extend to other providers if needed
-    raise ValueError(f"create_client_from_config only supports huggingface, got: {provider}")
+    if provider == "local":
+        base_url = config.get("base_url", LocalClient.DEFAULT_BASE_URL)
+        reasoning_format = config.get("reasoning_format", "none")
+        return LocalClient(
+            base_url=base_url,
+            reasoning_format=reasoning_format,
+            **common_kwargs,
+        )
+
+    raise ValueError(f"create_client_from_config supports huggingface and local, got: {provider}")

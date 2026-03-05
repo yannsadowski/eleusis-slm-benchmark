@@ -149,3 +149,35 @@ gpt-oss-20b:
   hf_provider: together
   reasoning_format: separate_field
   color: "#B2B2B2"  # Light gray
+
+# ============================================================================
+# Local Models - OpenAI-compatible servers
+#
+# Supported backends (all expose the same /v1/chat/completions endpoint):
+#   Ollama       →  ollama serve           (default: http://localhost:11434/v1)
+#   vLLM         →  vllm serve <model>     (default: http://localhost:8000/v1)
+#   LM Studio    →  start server in GUI    (default: http://localhost:1234/v1)
+#   llama-server →  llama-server -m *.gguf (default: http://localhost:8080/v1)
+#
+# reasoning_format:
+#   "none"       – standard instruction model
+#   "think_tags" – model uses <think>…</think> (DeepSeek-R1, Qwen3-Thinking…)
+#
+# Usage: uv run python scripts/evaluate_single.py --model local-ollama-qwen3.5-9b
+# ============================================================================
+
+# ollama pull qwen3.5:9b
+local-ollama-qwen3.5-9b:
+  provider: local
+  model_id: qwen3.5:9b
+  base_url: http://localhost:11434/v1
+  reasoning_format: think_tags
+  color: "#7C3AED"
+
+# ollama pull qwen3.5:4b
+local-ollama-qwen3.5-4b:
+  provider: local
+  model_id: qwen3.5:4b
+  base_url: http://localhost:11434/v1
+  reasoning_format: think_tags
+  color: "#6D28D9"
