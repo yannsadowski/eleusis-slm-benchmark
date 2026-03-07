@@ -10,70 +10,94 @@ claude-opus-4.5:
   model_id: claude-opus-4-5-20251101
   reasoning_budget: 16000  # budget_tokens for extended thinking
   color: "#C1755A"  # Anthropic warm
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-11"
 
 claude-haiku-4.5:
   provider: anthropic
   model_id: claude-haiku-4-5-20251001
   reasoning_budget: 16000  # budget_tokens for extended thinking
   color: "#D08E76"  # Anthropic warm (lighter)
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-10"
 
 gpt-5-mini-medium:
   provider: openai
   model_id: gpt-5-mini-2025-08-07
   reasoning_effort: medium  # none|minimal|low|medium|high|xhigh
   color: "#99BDB4"  # OpenAI teal
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-08"
 
 gpt-5.2-medium:
   provider: openai
   model_id: gpt-5.2
   reasoning_effort: medium  # none|minimal|low|medium|high|xhigh
   color: "#99BDB4"  # OpenAI teal (lightest)
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-12"  # released Dec 11, 2025
 
 gpt-5.2-high:
   provider: openai
   model_id: gpt-5.2
   reasoning_effort: high  # none|minimal|low|medium|high|xhigh
   color: "#8CB3A8"  # OpenAI teal
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-12"  # released Dec 11, 2025
 
 gpt-5.2-xhigh:
   provider: openai
   model_id: gpt-5.2
   reasoning_effort: xhigh  # none|minimal|low|medium|high|xhigh
   color: "#7FA99D"  # OpenAI teal (darkest)
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-12"  # released Dec 11, 2025
 
 gemini-3-pro-preview-low:
   provider: google
   model_id: gemini-3-pro-preview
   thinking_level: low
   color: "#6E97F3"  # Gemini blue (lighter)
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-11"  # released Nov 18, 2025
 
 gemini-3-pro-preview-high:
   provider: google
   model_id: gemini-3-pro-preview
   thinking_level: high
   color: "#4E81F0"  # Gemini blue
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-11"  # released Nov 18, 2025
 
 gemini-3-flash-preview-low:
   provider: google
   model_id: gemini-3-flash-preview
   thinking_level: low
   color: "#AEC3F9"  # Gemini blue (lightest)
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-12"  # released Dec 17, 2025
 
 gemini-3-flash-preview-high:
   provider: google
   model_id: gemini-3-flash-preview
   thinking_level: high
   color: "#8EADF6"  # Gemini blue (lighter)
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-12"  # released Dec 17, 2025
 
 grok-4-1-fast-reasoning:
   provider: xai
   model_id: grok-4-1-fast-reasoning
   color: "#1A1A1A"  # xAI black
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-11"  # released Nov 20, 2025
 
 grok-4:
   provider: xai
   model_id: grok-4
   color: "#333333"  # xAI dark gray
+  parameters_b: null  # not publicly disclosed
+  publish_date: "2025-07"  # released Jul 10, 2025
 
 # ============================================================================
 # OpenRouter - SLM models (< 9B parameters)
@@ -84,32 +108,44 @@ ministral-8b:
   provider: openrouter
   model_id: mistralai/ministral-8b-2512
   color: "#FF7043"  # Mistral orange
+  parameters_b: 8.0  # Ministral 3 8B
+  publish_date: "2025-12"  # released Dec 2, 2025
 
 # Standard SLM instruction models
 llama-3.1-8b:
   provider: openrouter
   model_id: meta-llama/llama-3.1-8b-instruct
   color: "#5BA8FB"  # Meta blue
+  parameters_b: 8.0
+  publish_date: "2024-07"  # released Jul 23, 2024
 
 qwen-2.5-7b:
   provider: openrouter
   model_id: qwen/qwen-2.5-7b-instruct
   color: "#E07B54"  # Qwen orange
+  parameters_b: 7.6
+  publish_date: "2024-09"  # released Sep 19, 2024
 
 gemma-3-4b:
   provider: openrouter
   model_id: google/gemma-3-4b-it
   color: "#82B4F7"  # Google blue (light)
+  parameters_b: 4.3
+  publish_date: "2025-03"  # released Mar 12, 2025
 
 qwen-3-8b:
   provider: openrouter
   model_id: qwen/qwen3-8b
   color: "#D4622A"  # Qwen orange (dark)
+  parameters_b: 8.2
+  publish_date: "2025-04"  # released Apr 28, 2025
 
 llama-3.2-3b:
   provider: openrouter
   model_id: meta-llama/llama-3.2-3b-instruct
   color: "#5BA8FB"  # Meta blue (light)
+  parameters_b: 3.2
+  publish_date: "2024-09"  # released Sep 25, 2024
 
 # ============================================================================
 # Open Models - HuggingFace Inference Providers
@@ -121,6 +157,8 @@ deepseek-r1:
   hf_provider: together
   reasoning_format: think_tags  # Uses <think>...</think> in content
   color: "#5A6AF7"  # DeepSeek blue-violet
+  parameters_b: 671.0  # MoE total, 37B active
+  publish_date: "2025-01"  # released Jan 20, 2025
 
 kimi-k2:
   provider: huggingface
@@ -128,6 +166,8 @@ kimi-k2:
   hf_provider: together
   reasoning_format: separate_field
   color: "#CCCC00"  # Yellow
+  parameters_b: 1000.0  # MoE total (~1T), 32B active
+  publish_date: "2025-07"  # released Jul 11, 2025
 
 glm-4.7:
   provider: huggingface
@@ -135,6 +175,8 @@ glm-4.7:
   hf_provider: zai-org
   reasoning_format: separate_field
   color: "#FF7777"  # red-pink
+  parameters_b: 355.0  # MoE total, 32B active
+  publish_date: "2025-12"  # released Dec 22, 2025
 
 gpt-oss-120b:
   provider: huggingface
@@ -142,6 +184,8 @@ gpt-oss-120b:
   hf_provider: together
   reasoning_format: separate_field
   color: "#707070"  # Dark gray
+  parameters_b: 117.0  # MoE total, 5.1B active
+  publish_date: "2025-08"  # released Aug 5, 2025
 
 gpt-oss-20b:
   provider: huggingface
@@ -149,6 +193,8 @@ gpt-oss-20b:
   hf_provider: together
   reasoning_format: separate_field
   color: "#B2B2B2"  # Light gray
+  parameters_b: 21.0  # MoE total, 3.6B active
+  publish_date: "2025-08"  # released Aug 5, 2025
 
 # ============================================================================
 # Local Models - OpenAI-compatible servers
@@ -173,6 +219,8 @@ local-ollama-qwen3.5-9b:
   base_url: http://localhost:11434/v1
   reasoning_format: think_tags
   color: "#7C3AED"
+  parameters_b: 9.0
+  publish_date: "2026-03"  # released Mar 2, 2026
 
 # ollama pull qwen3.5:4b
 local-ollama-qwen3.5-4b:
@@ -181,3 +229,5 @@ local-ollama-qwen3.5-4b:
   base_url: http://localhost:11434/v1
   reasoning_format: think_tags
   color: "#6D28D9"
+  parameters_b: 4.0
+  publish_date: "2026-03"  # released Mar 2, 2026

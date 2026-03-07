@@ -608,6 +608,185 @@ def plot_score_stack(
     return png_path, json_path
 
 
+def plot_score_vs_parameters(
+    metrics: pd.DataFrame, model_colors: dict[str, str], output_folder: Path
+) -> tuple[Path, Path]:
+    """Generate scatter plot of avg_floored_score vs number of billion parameters.
+
+    Only includes models with known parameters_b.
+    Returns (png_path, json_path).
+    """
+    setup_matplotlib_style()
+    fig, ax = plt.subplots(figsize=(10, 8))
+
+    model_metadata = load_model_metadata()
+
+    plot_data = {
+        "models": [],
+        "metadata": {"x_axis": "parameters_b", "y_axis": "avg_floored_score"},
+    }
+
+    for _, row in metrics.iterrows():
+        model_name = row["model"]
+        y = row["avg_floored_score"]
+        color = get_model_color(model_name, model_colors)
+
+        parameters_b = None
+        is_open = False
+        provider = "unknown"
+        normalized_name = normalize_model_name(model_name)
+        for key, meta in model_metadata.items():
+            norm_key = normalize_model_name(key)
+            if norm_key == normalized_name or norm_key in normalized_name or normalized_name in norm_key:
+                parameters_b = meta.get("parameters_b")
+                is_open = meta["is_open"]
+                provider = meta["provider"]
+                break
+
+        if parameters_b is None:
+            continue
+
+        if is_open:
+            ax.scatter(parameters_b, y, c="none", edgecolors=color, s=150, linewidths=2.5, zorder=3)
+        else:
+            ax.scatter(parameters_b, y, c=color, s=150, alpha=0.9, zorder=3)
+
+        ax.annotate(
+            model_name, (parameters_b, y),
+            xytext=(8, 4), textcoords="offset points", fontsize=9,
+            ha="left", va="bottom"
+        )
+
+        plot_data["models"].append({
+            "name": model_name,
+            "avg_floored_score": float(y),
+            "parameters_b": float(parameters_b),
+            "color": color,
+            "is_open": is_open,
+            "provider": provider,
+        })
+
+    ax.set_xscale("log")
+    ax.set_xlabel("Number of Parameters (Billions, log scale)", fontsize=11)
+    ax.set_ylabel("Average Floored Score", fontsize=11)
+    ax.set_title("Performance vs Model Size", fontsize=13, fontweight="bold")
+
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="gray", markersize=10, label="Closed model"),
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="none", markeredgecolor="gray",
+               markeredgewidth=2, markersize=10, label="Open model"),
+    ]
+    ax.legend(handles=legend_elements, loc="lower right", fontsize=10)
+
+    png_path = output_folder / "score_vs_parameters.png"
+    json_path = output_folder / "score_vs_parameters.json"
+
+    save_figure(fig, png_path)
+    with open(json_path, "w") as f:
+        json.dump(plot_data, f, indent=2)
+    logger.info(f"Saved: {json_path}")
+
+    return png_path, json_path
+
+
+def plot_score_vs_publish_date(
+    metrics: pd.DataFrame, model_colors: dict[str, str], output_folder: Path
+) -> tuple[Path, Path]:
+    """Generate scatter plot of avg_floored_score vs publish date.
+
+    Only includes models with known publish_date (format "YYYY-MM").
+    Returns (png_path, json_path).
+    """
+    setup_matplotlib_style()
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    model_metadata = load_model_metadata()
+
+    plot_data = {
+        "models": [],
+        "metadata": {"x_axis": "publish_date", "y_axis": "avg_floored_score"},
+    }
+
+    for _, row in metrics.iterrows():
+        model_name = row["model"]
+        y = row["avg_floored_score"]
+        color = get_model_color(model_name, model_colors)
+
+        publish_date = None
+        is_open = False
+        provider = "unknown"
+        normalized_name = normalize_model_name(model_name)
+        for key, meta in model_metadata.items():
+            norm_key = normalize_model_name(key)
+            if norm_key == normalized_name or norm_key in normalized_name or normalized_name in norm_key:
+                publish_date = meta.get("publish_date")
+                is_open = meta["is_open"]
+                provider = meta["provider"]
+                break
+
+        if publish_date is None:
+            continue
+
+        # Convert "YYYY-MM" to a numeric value for plotting (year + month/12)
+        year, month = map(int, publish_date.split("-"))
+        x = year + (month - 1) / 12.0
+
+        if is_open:
+            ax.scatter(x, y, c="none", edgecolors=color, s=150, linewidths=2.5, zorder=3)
+        else:
+            ax.scatter(x, y, c=color, s=150, alpha=0.9, zorder=3)
+
+        ax.annotate(
+            model_name, (x, y),
+            xytext=(8, 4), textcoords="offset points", fontsize=9,
+            ha="left", va="bottom"
+        )
+
+        plot_data["models"].append({
+            "name": model_name,
+            "avg_floored_score": float(y),
+            "publish_date": publish_date,
+            "color": color,
+            "is_open": is_open,
+            "provider": provider,
+        })
+
+    ax.set_xlabel("Publish Date", fontsize=11)
+    ax.set_ylabel("Average Floored Score", fontsize=11)
+    ax.set_title("Performance vs Publish Date", fontsize=13, fontweight="bold")
+
+    import matplotlib.ticker as ticker
+
+    def format_date(x, _):
+        year = int(x)
+        month = round((x - year) * 12) + 1
+        return f"{year}-{month:02d}"
+
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))
+    plt.xticks(rotation=45, ha="right")
+
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="gray", markersize=10, label="Closed model"),
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="none", markeredgecolor="gray",
+               markeredgewidth=2, markersize=10, label="Open model"),
+    ]
+    ax.legend(handles=legend_elements, loc="lower right", fontsize=10)
+
+    plt.tight_layout()
+
+    png_path = output_folder / "score_vs_publish_date.png"
+    json_path = output_folder / "score_vs_publish_date.json"
+
+    save_figure(fig, png_path)
+    with open(json_path, "w") as f:
+        json.dump(plot_data, f, indent=2)
+    logger.info(f"Saved: {json_path}")
+
+    return png_path, json_path
+
+
 def analyze_basic_metrics(
     df_rounds: pd.DataFrame,
     df_turns: pd.DataFrame,
@@ -652,5 +831,15 @@ def analyze_basic_metrics(
 
     # Generate score stack plot (raw -> floored -> no-stakes)
     png_path, json_path = plot_score_stack(metrics, model_colors, output_folder)
+    tee.write(f"Saved: {png_path}\n")
+    tee.write(f"Saved: {json_path}\n")
+
+    # Generate score vs parameters plot (only models with known parameters_b)
+    png_path, json_path = plot_score_vs_parameters(metrics, model_colors, output_folder)
+    tee.write(f"Saved: {png_path}\n")
+    tee.write(f"Saved: {json_path}\n")
+
+    # Generate score vs publish date plot (only models with known publish_date)
+    png_path, json_path = plot_score_vs_publish_date(metrics, model_colors, output_folder)
     tee.write(f"Saved: {png_path}\n")
     tee.write(f"Saved: {json_path}\n")

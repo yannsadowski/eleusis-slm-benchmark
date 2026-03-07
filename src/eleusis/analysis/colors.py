@@ -35,6 +35,8 @@ def load_model_metadata() -> dict[str, dict]:
                 "color": config.get("color", DEFAULT_COLOR),
                 "is_open": provider in OPEN_PROVIDERS,
                 "provider": provider,
+                "parameters_b": config.get("parameters_b"),
+                "publish_date": config.get("publish_date"),
             }
     return metadata
 
